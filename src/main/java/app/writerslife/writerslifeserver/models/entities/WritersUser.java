@@ -16,13 +16,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import app.writerslife.writerslifeserver.models.builders.WritersUserBuilder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Entity
 @Table(name = "WritersUser", schema = "public")
 public class WritersUser{
 	
-	public WritersUser() {}
+	public WritersUser() {}	
 	
 	public WritersUser(WritersUserBuilder writerUserBuilder) {		
 		this.username = writerUserBuilder.getUsername();
@@ -36,6 +37,7 @@ public class WritersUser{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Setter
 	@Column(name = "Id",updatable = false)	
 	private Long id;
 	

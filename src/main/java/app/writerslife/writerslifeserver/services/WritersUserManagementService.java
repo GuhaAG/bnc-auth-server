@@ -14,9 +14,9 @@ public class WritersUserManagementService{
 	@Autowired
 	private WritersUserRepository repository;
 	
-	public WritersUser addNewUser(WritersUser user) {
+	public WritersUser addUser(WritersUser user) {
 		return repository.save(user);
-	}	
+	}
 	
 	public Optional<WritersUser> findUser(long id) {		
 		return repository.findById(id);
@@ -28,5 +28,5 @@ public class WritersUserManagementService{
 
 	public void deleteUser(long userId) {
 		repository.deleteById(userId);
-	}
+	}	
 }

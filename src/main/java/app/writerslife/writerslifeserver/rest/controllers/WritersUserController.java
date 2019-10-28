@@ -36,9 +36,10 @@ public class WritersUserController {
     		throw new DuplicateUserException();
     	}
     	
-    	return service.addNewUser(addUser);    	
+    	return service.addUser(addUser);    	
     }
     
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)        
 	public WritersUser getByUserId(@PathVariable Long id) throws UserNotExistsException {    	
     	Optional<WritersUser> user = service.findUser(id);
@@ -48,6 +49,22 @@ public class WritersUserController {
     	}
     	
     	return user.get();    	
+    }
+    
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+	public WritersUser update(@PathVariable Long id,@Valid @RequestBody WritersUserBuilder user) throws UserNotExistsException {
+    	Optional<WritersUser> thisUser = service.findUser(id);
+    	
+    	if(!thisUser.isPresent()) {
+    		throw new UserNotExistsException();    	
+    	}
+    	
+    	WritersUser updateduser = new WritersUser(user);
+		updateduser.setId(id);
+		
+		return service.addUser(updateduser);
     }
     
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
