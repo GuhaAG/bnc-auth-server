@@ -13,8 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import app.writerslife.writerslifeserver.models.builders.WritersUserBuilder;
+import app.writerslife.writerslifeserver.models.models.WritersUserBuilder;
 import lombok.Getter;
 import lombok.Setter;
 

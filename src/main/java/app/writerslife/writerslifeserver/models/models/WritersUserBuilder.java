@@ -1,4 +1,4 @@
-package app.writerslife.writerslifeserver.models.builders;
+package app.writerslife.writerslifeserver.models.models;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
