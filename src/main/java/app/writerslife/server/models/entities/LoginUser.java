@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import app.writerslife.server.models.models.UserBuilder;
+import app.writerslife.server.models.models.LoginUserBuilder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,13 +24,13 @@ public class LoginUser {
 	
 	public LoginUser() {}
 	
-	public LoginUser(UserBuilder userBuilder) {
-		this.username = userBuilder.getUsername();
-		this.email = userBuilder.getEmail();
-		this.firstname = userBuilder.getFirstname();
-		this.lastname = userBuilder.getLastname();
-		this.nomdeplume = userBuilder.getNomdeplume();
-		this.password = new BCryptPasswordEncoder().encode(userBuilder.getPassword());
+	public LoginUser(LoginUserBuilder loginUserBuilder) {
+		this.username = loginUserBuilder.getUsername();
+		this.email = loginUserBuilder.getEmail();
+		this.firstname = loginUserBuilder.getFirstname();
+		this.lastname = loginUserBuilder.getLastname();
+		this.nomdeplume = loginUserBuilder.getNomdeplume();
+		this.password = new BCryptPasswordEncoder().encode(loginUserBuilder.getPassword());
 		this.createDate = LocalDateTime.now();	
 	}
 

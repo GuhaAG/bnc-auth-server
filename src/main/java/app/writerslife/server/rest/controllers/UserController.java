@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import app.writerslife.server.models.models.UserBuilder;
+import app.writerslife.server.models.models.LoginUserBuilder;
 import app.writerslife.server.services.UserManagementService;
 
 @CrossOrigin
@@ -30,7 +30,7 @@ public class UserController {
   @RequestMapping(value = "/add", method = RequestMethod.POST)
   @ResponseBody
   @ResponseStatus(HttpStatus.CREATED)
-  public LoginUser add(@Valid @RequestBody UserBuilder user)
+  public LoginUser add(@Valid @RequestBody LoginUserBuilder user)
       throws DuplicateUserException {
     LoginUser addLoginUser = new LoginUser(user);
 
@@ -66,7 +66,7 @@ public class UserController {
   @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public LoginUser update(@PathVariable Long id, @Valid @RequestBody UserBuilder user)
+  public LoginUser update(@PathVariable Long id, @Valid @RequestBody LoginUserBuilder user)
       throws UserNotExistsException, UnauthorizedUserException {
     Optional<LoginUser> thisUser = service.findUser(id);
 
