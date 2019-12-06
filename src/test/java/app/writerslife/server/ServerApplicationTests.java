@@ -1,10 +1,10 @@
-package app.writerslife.writerslifeserver;
+package app.writerslife.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WriterslifeServerApplicationTests {
+class ServerApplicationTests {
 
 	@Test
 	void contextLoads() {
