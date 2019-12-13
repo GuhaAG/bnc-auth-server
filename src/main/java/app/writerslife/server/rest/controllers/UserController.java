@@ -67,21 +67,24 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public LoginUser update(@PathVariable Long id, @Valid @RequestBody LoginUserBuilder user)
-            throws UserNotExistsException, UnauthorizedUserException {
+            throws UserNotExistsException, DuplicateUserException, UnauthorizedUserException {
         Optional<LoginUser> thisUser = service.findUser(id);
-
         if (!thisUser.isPresent()) {
             throw new UserNotExistsException();
         }
 
-        LoginUser updatedUser = new LoginUser(user);
-        updatedUser.setId(id);
-
         String loggedInUsername = getLoggedInUsername();
-
-        if (loggedInUsername.equals(updatedUser.getUsername())) {
+        if (!loggedInUsername.equals(thisUser.get().getUsername())) {
             throw new UnauthorizedUserException();
         }
+
+        Optional<LoginUser> loginUserWithEmail = service.findByEmail(user.getEmail());
+        if (loginUserWithEmail.isPresent() && loginUserWithEmail.get().getId() != id) {
+            throw new DuplicateUserException();
+        }
+
+        LoginUser updatedUser = new LoginUser(user, thisUser.get());
+        updatedUser.setId(id);
 
         return service.addUser(updatedUser);
     }
