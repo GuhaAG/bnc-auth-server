@@ -1,6 +1,7 @@
 package app.writerslife.server.configs;
 
 import app.writerslife.server.services.JwtUserDetailsService;
+import app.writerslife.server.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

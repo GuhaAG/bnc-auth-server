@@ -1,4 +1,4 @@
-package app.writerslife.server.rest.controllers;
+package app.writerslife.server.controllers.rest;
 
 import app.writerslife.server.models.entities.LoginUser;
 import app.writerslife.server.models.models.LoginUserBuilder;
@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -102,13 +103,13 @@ public class UserController {
 
     @RequestMapping(value = "/PasswordReset", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public boolean passwordReset(@Valid @RequestBody LoginUserBuilder userWithEmail) throws UserNotExistsException, EmailException {
-        Optional<LoginUser> userFromEmail = service.findByEmail(userWithEmail.getEmail());
+    public boolean passwordReset(final HttpServletRequest request, @Valid @RequestBody LoginUserBuilder requestUserWithEmail) throws UserNotExistsException, EmailException {
+        Optional<LoginUser> userFromEmail = service.findByEmail(requestUserWithEmail.getEmail());
         if (!userFromEmail.isPresent()) {
             throw new UserNotExistsException();
         }
 
-        if (emailSender.sendEmailWith(userWithEmail.getEmail())) {
+        if (emailSender.sendPasswordResetEmail(getAppUrl(request), userFromEmail.get().getEmail(), userFromEmail.get().getUsername())) {
             return true;
         } else {
             throw new EmailException();
@@ -159,6 +160,10 @@ public class UserController {
             loggedInUsername = principal.toString();
         }
         return loggedInUsername;
+    }
+
+    private String getAppUrl(HttpServletRequest request) {
+        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }
 

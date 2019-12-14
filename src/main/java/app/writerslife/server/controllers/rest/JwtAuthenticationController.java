@@ -1,6 +1,6 @@
-package app.writerslife.server.rest.controllers;
+package app.writerslife.server.controllers.rest;
 
-import app.writerslife.server.configs.JwtTokenUtil;
+import app.writerslife.server.utils.JwtTokenUtil;
 import app.writerslife.server.models.models.JwtRequest;
 import app.writerslife.server.models.models.JwtResponse;
 import app.writerslife.server.services.JwtUserDetailsService;
