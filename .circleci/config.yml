@@ -1,25 +1,22 @@
 # Java Maven CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
+
 version: 2
 jobs:
   build:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
-      - image: postgres:9.6
+        environment:
+          # Customize the JVM maximum heap limit
+          MAVEN_OPTS: -Xmx3200m
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
+      - image: circleci/postgres:9.6.2-alpine
+          environment:
+            POSTGRES_DB: writerslife-sqldb
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
 
     working_directory: ~/repo
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
 
     steps:
       - checkout
