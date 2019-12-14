@@ -3,6 +3,7 @@ package app.writerslife.server.rest.controllers;
 import app.writerslife.server.models.entities.LoginUser;
 import app.writerslife.server.models.models.LoginUserBuilder;
 import app.writerslife.server.services.UserManagementService;
+import app.writerslife.server.utils.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserManagementService service;
+
+    @Autowired
+    private EmailUtil emailSender;
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -96,6 +100,21 @@ public class UserController {
         service.deleteUser(id);
     }
 
+    @RequestMapping(value = "/PasswordReset", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public boolean passwordReset(@Valid @RequestBody LoginUserBuilder userWithEmail) throws UserNotExistsException, EmailException {
+        Optional<LoginUser> userFromEmail = service.findByEmail(userWithEmail.getEmail());
+        if (!userFromEmail.isPresent()) {
+            throw new UserNotExistsException();
+        }
+
+        if (emailSender.sendEmailWith(userWithEmail.getEmail())) {
+            return true;
+        } else {
+            throw new EmailException();
+        }
+    }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Username or Email already exists")
     class DuplicateUserException extends Exception {
         private static final long serialVersionUID = 7736888161753919227L;
@@ -118,6 +137,14 @@ public class UserController {
         private static final long serialVersionUID = 7736888161753919227L;
 
         public UnauthorizedUserException() {
+        }
+    }
+
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Sending Email failed. Please try again later.")
+    class EmailException extends Exception {
+        private static final long serialVersionUID = 7736888161753919227L;
+
+        public EmailException() {
         }
     }
 
