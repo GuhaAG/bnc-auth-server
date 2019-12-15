@@ -61,7 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/users/add",
                 "/users/PasswordReset",
                 "/users/UpdatePassword",
-                "/UpdatePassword"
+                "/UpdatePassword",
+                "/users/savePassword"
         ).permitAll().
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().
