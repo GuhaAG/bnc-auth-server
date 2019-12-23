@@ -62,7 +62,7 @@ public class LoginUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter
-    @Column(name = "Id", updatable = false)
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @NotEmpty
