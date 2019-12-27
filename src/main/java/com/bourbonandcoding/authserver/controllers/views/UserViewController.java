@@ -36,24 +36,28 @@ public class UserViewController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/users/savePassword", method = RequestMethod.POST)
-    public boolean savePassword(@Valid PasswordChangeRequest passwordChangeRequest) {
+    public String savePassword(@Valid PasswordChangeRequest passwordChangeRequest) {
         String username = passwordChangeRequest.getUsername();
         String password = passwordChangeRequest.getPassword();
 
         if (jwtTokenUtil.validateToken(passwordChangeRequest.getToken())) {
-            Optional<LoginUser> loginUser = service.findByUsername(username);
-            if (loginUser.isPresent()) {
-                LoginUserBuilder loginUserBuilder = new LoginUserBuilder();
-                loginUserBuilder.setPassword(password);
-                LoginUser updatedUser = new LoginUser(loginUserBuilder, loginUser.get());
-                updatedUser.setId(loginUser.get().getId());
+            try {
+                Optional<LoginUser> loginUser = service.findByUsername(username);
+                if (loginUser.isPresent()) {
+                    LoginUserBuilder loginUserBuilder = new LoginUserBuilder();
+                    loginUserBuilder.setPassword(password);
+                    LoginUser updatedUser = new LoginUser(loginUserBuilder, loginUser.get());
+                    updatedUser.setId(loginUser.get().getId());
 
-                service.addUser(updatedUser);
+                    service.addUser(updatedUser);
 
-                return true;
+                    return "success";
+                }
+            } catch (Exception e) {
+                return e.getMessage();
             }
         }
-        return false;
+        return "expired";
     }
 }
 
