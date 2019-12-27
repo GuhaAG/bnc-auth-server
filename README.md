@@ -1,6 +1,6 @@
-# writerslife-server
+# B&C auth-server
 
-Backend REST API for writerslife
+Token based auth-server for B&C services
 
 
 [![CircleCI](https://circleci.com/gh/GuhaAG/writerslife-server/tree/master.svg?style=svg)](https://circleci.com/gh/GuhaAG/writerslife-server/tree/master)
