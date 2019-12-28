@@ -13,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Optional;
 
 @Controller
@@ -30,7 +28,7 @@ public class UserViewController {
     Environment environment;
 
     @RequestMapping("/UpdatePassword")
-    public String showChangePasswordPage(@RequestParam("token") String token, final Model model) throws UnknownHostException {
+    public String showChangePasswordPage(@RequestParam("token") String token, final Model model) {
         String host = environment.getProperty("server.host");
         String port = environment.getProperty("server.port");
 
